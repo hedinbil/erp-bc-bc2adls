@@ -3,6 +3,10 @@ page 82564 "Deleted Tables Not To Sync"
     PageType = List;
     ApplicationArea = All;
     SourceTable = "Deleted Tables Not to Sync";
+    Permissions =
+        tabledata "ADLSE Table" = R,
+        tabledata "Deleted Tables Not to Sync" = RIMD,
+        tabledata "Table Metadata" = R;
 
     layout
     {
@@ -10,7 +14,7 @@ page 82564 "Deleted Tables Not To Sync"
         {
             repeater(GroupName)
             {
-                field(TableId; rec.TableId)
+                field(TableId; Rec.TableId)
                 {
                     trigger OnLookup(var Text: Text): Boolean
                     var
@@ -18,10 +22,10 @@ page 82564 "Deleted Tables Not To Sync"
                     begin
                         GetTableId(TableMetadata);
                         if Page.RunModal(Page::"Available Table Selection List", TableMetadata) = Action::LookupOK then
-                            rec.TableId := TableMetadata.ID;
+                            Rec.TableId := TableMetadata.ID;
                     end;
                 }
-                field("Table Caption"; rec."Table Caption") { }
+                field("Table Caption"; Rec."Table Caption") { }
             }
         }
     }

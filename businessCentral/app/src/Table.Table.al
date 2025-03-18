@@ -8,9 +8,15 @@ table 82561 "ADLSE Table"
     Caption = 'ADLSE Table';
     DataClassification = CustomerContent;
     DataPerCompany = false;
-    Permissions = tabledata "ADLSE Field" = rd,
-                  tabledata "ADLSE Table Last Timestamp" = d,
-                  tabledata "ADLSE Deleted Record" = d;
+    Permissions =
+        tabledata "ADLSE Deleted Record" = Rd,
+        tabledata "ADLSE Field" = IMrd,
+        tabledata "ADLSE Run" = R,
+        tabledata "ADLSE Setup" = R,
+        tabledata "ADLSE Table" = RIM,
+        tabledata "ADLSE Table Last Timestamp" = RMd,
+        tabledata Field = R,
+        tabledata "Table Metadata" = R;
 
     fields
     {
@@ -59,7 +65,6 @@ table 82561 "ADLSE Table"
         field(10; ExportCategory; Code[50])
         {
             TableRelation = "ADLSE Export Category Table";
-            DataClassification = CustomerContent;
             ToolTip = 'Specifies the Export Category which can be linked to tables which are part of the export to Azure Datalake. The Category can be used to schedule the export.';
         }
     }
@@ -214,9 +219,9 @@ table 82561 "ADLSE Table"
                     ADLSETableLastTimestamp.SaveUpdatedLastTimestamp(Rec."Table ID", 0);
                     ADLSETableLastTimestamp.SaveDeletedLastEntryNo(Rec."Table ID", 0);
                 end else begin
-                    ADLSETableLastTimestamp.SetRange("Table ID", rec."Table ID");
-                    ADLSETableLastTimestamp.ModifyAll("Updated Last Timestamp", 0);
-                    ADLSETableLastTimestamp.ModifyAll("Deleted Last Entry No.", 0);
+                    ADLSETableLastTimestamp.SetRange("Table ID", Rec."Table ID");
+                    ADLSETableLastTimestamp.ModifyAll("Updated Last Timestamp", 0, true);
+                    ADLSETableLastTimestamp.ModifyAll("Deleted Last Entry No.", 0, true);
                     ADLSETableLastTimestamp.SetRange("Table ID");
                 end;
                 ADLSEDeletedRecord.SetRange("Table ID", Rec."Table ID");
@@ -302,13 +307,13 @@ table 82561 "ADLSE Table"
     begin
         Field.SetRange(TableNo, Rec."Table ID");
         Field.SetRange(IsPartOfPrimaryKey, true);
-        if Field.Findset() then
+        if Field.FindSet() then
             repeat
                 if not ADLSEField.Get(Rec."Table ID", Field."No.") then begin
                     ADLSEField."Table ID" := Field.TableNo;
                     ADLSEField."Field ID" := Field."No.";
                     ADLSEField.Enabled := true;
-                    ADLSEField.Insert();
+                    ADLSEField.Insert(true);
                 end;
             until Field.Next() = 0;
     end;

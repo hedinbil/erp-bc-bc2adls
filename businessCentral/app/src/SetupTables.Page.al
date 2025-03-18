@@ -169,7 +169,7 @@ page 82561 "ADLSE Setup Tables"
                         2:
                             SelectedADLSETable.ResetSelected(true);
                         else
-                            Error('Chosen option is not valid');
+                            Error(ErrorInfo.Create('Chosen option is not valid'));
                     end;
                     CurrPage.Update();
                 end;
@@ -202,7 +202,7 @@ page 82561 "ADLSE Setup Tables"
                 var
                     ADLSETable: Record "ADLSE Table";
                 begin
-                    XmlPort.Run(XmlPort::"BC2ADLS Import", false, true, ADLSETable);
+                    Xmlport.Run(Xmlport::"BC2ADLS Import", false, true, ADLSETable);
                     CurrPage.Update(false);
                 end;
             }
@@ -218,7 +218,7 @@ page 82561 "ADLSE Setup Tables"
                     ADLSETable: Record "ADLSE Table";
                 begin
                     ADLSETable.Reset();
-                    XmlPort.Run(XmlPort::"BC2ADLS Export", false, false, ADLSETable);
+                    Xmlport.Run(Xmlport::"BC2ADLS Export", false, false, ADLSETable);
                     CurrPage.Update(false);
                 end;
             }
@@ -237,7 +237,7 @@ page 82561 "ADLSE Setup Tables"
                     CurrPage.SetSelectionFilter(ADLSETable);
                     AssignExportCategory.LookupMode(true);
                     if AssignExportCategory.RunModal() = Action::LookupOK then
-                        ADLSETable.ModifyAll(ExportCategory, AssignExportCategory.GetExportCategoryCode());
+                        ADLSETable.ModifyAll(ExportCategory, AssignExportCategory.GetExportCategoryCode(), true);
                     CurrPage.Update();
                 end;
             }

@@ -2,6 +2,17 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 codeunit 82569 "ADLSE Execution"
 {
+    Permissions =
+        tabledata "ADLSE Current Session" = R,
+        tabledata "ADLSE Deleted Record" = R,
+        tabledata "ADLSE Field" = R,
+        tabledata "ADLSE Run" = R,
+        tabledata "ADLSE Setup" = RM,
+        tabledata "ADLSE Table" = R,
+        tabledata "ADLSE Table Last Timestamp" = R,
+        tabledata AllObjWithCaption = R,
+        tabledata "Deleted Tables Not to Sync" = R,
+        tabledata "Job Queue Entry" = RM;
     trigger OnRun()
     begin
         StartExport();
@@ -48,16 +59,16 @@ codeunit 82569 "ADLSE Execution"
 
         if EmitTelemetry then
             Log('ADLSE-022', 'Starting export for all tables', Verbosity::Normal);
-        ADLSETable.SetRange(Enabled, true);
-        if ADLSETable.FindSet(false) then
+        AdlseTable.SetRange(Enabled, true);
+        if AdlseTable.FindSet(false) then
             repeat
                 Counter += 1;
-                ADLSEField.SetRange("Table ID", ADLSETable."Table ID");
+                ADLSEField.SetRange("Table ID", AdlseTable."Table ID");
                 ADLSEField.SetRange(Enabled, true);
                 if not ADLSEField.IsEmpty() then
-                    if ADLSESessionManager.StartExport(ADLSETable."Table ID", EmitTelemetry) then
+                    if ADLSESessionManager.StartExport(AdlseTable."Table ID", EmitTelemetry) then
                         Started += 1;
-            until ADLSETable.Next() = 0;
+            until AdlseTable.Next() = 0;
 
         Message(ExportStartedTxt, Started, Counter);
         if EmitTelemetry then
@@ -169,7 +180,7 @@ codeunit 82569 "ADLSE Execution"
         if xmldata <> '' then begin
             ADLSEScheduleTaskAssignment.CreateJobQueueEntry(JobQueueEntry);
             JobQueueEntry.SetReportParameters(xmldata);
-            JobQueueEntry.Modify();
+            JobQueueEntry.Modify(true);
         end;
     end;
 

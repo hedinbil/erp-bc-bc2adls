@@ -17,10 +17,10 @@ page 82562 "ADLSE Setup Fields"
         {
             repeater(GroupName)
             {
-                field("FieldCaption"; Rec.FieldCaption) 
-		{ 
+                field("FieldCaption"; Rec.FieldCaption)
+                {
                     StyleExpr = StyleExprAsText;
-		}
+                }
 
                 field("Field ID"; Rec."Field ID")
                 {
@@ -29,17 +29,16 @@ page 82562 "ADLSE Setup Fields"
                     Visible = false;
                 }
 
-                field(Enabled; Rec.Enabled) 
-		{ 
+                field(Enabled; Rec.Enabled)
+                {
                     StyleExpr = StyleExprAsText;
-		}
+                }
                 field(IsPartOfPrimaryKey; IsPartOfPrimaryKey)
                 {
-                    ApplicationArea = All;
                     Caption = 'Part of Primary Key';
                     Editable = false;
                     StyleExpr = StyleExprAsText;
-                    ToolTip = 'Specifies if the the field is part of the primary key';
+                    ToolTip = 'Specifies if the the field is part of the primary key.';
                 }
                 field(ADLSFieldName; ADLSFieldName)
                 {
@@ -98,8 +97,8 @@ page 82562 "ADLSE Setup Fields"
                     if Rec.FindSet() then
                         repeat
                             if Rec.CanFieldBeEnabled() then begin
-                                Rec.Validate(Enabled, true);
-                                Rec.Modify(true);
+                                Rec.Validate(Enabled, false);
+                                Rec.Modify(false);
                             end else
                                 SomeFieldsCouldNotBeEnabled := true;
                         until Rec.Next() = 0;
@@ -123,9 +122,9 @@ page 82562 "ADLSE Setup Fields"
         FieldObsoleteState := Field.ObsoleteState;
         IsPartOfPrimaryKey := Field.IsPartOfPrimaryKey;
         if IsPartOfPrimaryKey then
-            StyleExprAsText := 'StrongAccent'
+            StyleExprAsText := Format(PageStyle::StrongAccent)//'StrongAccent'
         else
-            StyleExprAsText := 'Standard';
+            StyleExprAsText := Format(PageStyle::Standard);//'Standard';
     end;
 
     var

@@ -62,7 +62,7 @@ codeunit 82564 "ADLSE Util"
 
     local procedure GetDayOfWeek(YearPart: Text; MonthPart: Text; DayPart: Text): Text
     var
-        TempDate: Date;
+        // TempDate: Date;
         Day: Integer;
         Month: Integer;
         Year: Integer;
@@ -70,8 +70,9 @@ codeunit 82564 "ADLSE Util"
         Evaluate(Year, YearPart);
         Evaluate(Month, MonthPart);
         Evaluate(Day, DayPart);
-        TempDate := System.DMY2Date(Day, Month, Year);
-        case Date2DWY(TempDate, 1) of // the week number
+        // TempDate := System.DMY2Date(Day, Month, Year);
+        // case Date2DWY(TempDate, 1) of // the week number
+        case System.DMY2Date(Day, Month, Year).DayOfWeek() of // the week number
             1:
                 exit('Mon');
             2:
@@ -382,7 +383,7 @@ codeunit 82564 "ADLSE Util"
     var
         TableMetadata: Record "Table Metadata";
     begin
-        if TableMetadata.get(TableID) then
+        if TableMetadata.Get(TableID) then
             exit(TableMetadata.DataPerCompany);
     end;
 

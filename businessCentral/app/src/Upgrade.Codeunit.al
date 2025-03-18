@@ -4,6 +4,10 @@ codeunit 82572 "ADLSE Upgrade"
 {
     Subtype = Upgrade;
     Access = Internal;
+    Permissions =
+        tabledata "ADLSE Export Category" = R,
+        tabledata "ADLSE Export Category Table" = RI,
+        tabledata "ADLSE Setup" = RM;
 
     trigger OnCheckPreconditionsPerDatabase()
     var
@@ -134,7 +138,7 @@ codeunit 82572 "ADLSE Upgrade"
                 if not ExportCategoryTable.Get(ExportCategory.Code) then begin
                     ExportCategoryTable.Init();
                     ExportCategoryTable.TransferFields(ExportCategory);
-                    ExportCategoryTable.Insert();
+                    ExportCategoryTable.Insert(true);
                 end;
             until ExportCategory.Next() = 0;
     end;

@@ -3,6 +3,10 @@ report 82561 "ADLSE Schedule Task Assignment"
     ApplicationArea = Basic, Suite;
     Caption = 'Schedule Export';
     ProcessingOnly = true;
+    Permissions =
+        tabledata "ADLSE Table" = R,
+        tabledata "Job Queue Category" = R,
+        tabledata "Job Queue Entry" = RIM;
 
 
     dataset

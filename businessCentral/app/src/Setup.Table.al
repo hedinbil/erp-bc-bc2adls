@@ -37,7 +37,9 @@ table 82560 "ADLSE Setup"
         field(2; Container; Text[63])
         {
             Caption = 'Container';
+#pragma warning disable LC0038
             ToolTip = 'Specifies the name of the container where the data is going to be uploaded. Please refer to constraints on container names at https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata.';
+#pragma warning restore LC0038
 
             trigger OnValidate()
             begin
@@ -53,7 +55,9 @@ table 82560 "ADLSE Setup"
         field(3; MaxPayloadSizeMiB; Integer)
         {
             Caption = 'Max payload size (MiBs)';
+#pragma warning disable LC0038
             ToolTip = 'Specifies the maximum size of the upload for each block of data in MiBs. A large value will reduce the number of iterations to upload the data but may interfear with the performance of other processes running on this environment.';
+#pragma warning restore LC0038
             InitValue = 4;
             // Refer max limit for put block calls (https://docs.microsoft.com/en-us/rest/api/storageservices/put-block#remarks)
             MaxValue = 4000;
@@ -106,7 +110,9 @@ table 82560 "ADLSE Setup"
         {
             Caption = 'Skip row version sorting';
             InitValue = false;
+#pragma warning disable LC0038
             ToolTip = 'Specifies that the records are not sorted as per their row version before exporting them to the lake. Enabling this may interfear with how incremental data is pushed to the lake in subsequent export runs- please refer to the documentation.';
+#pragma warning restore LC0038
         }
 
         field(25; "Storage Type"; Enum "ADLSE Storage Type")

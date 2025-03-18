@@ -18,7 +18,7 @@ codeunit 82576 "ADLSE External Events Helper"
     var
         Company: Record Company;
     begin
-        Company.Get(CompanyName);
+        Company.Get(CompanyName());
         exit(TrimGuid(Company.SystemId));
     end;
 

@@ -7,8 +7,16 @@ page 82560 "ADLSE Setup"
     UsageCategory = Administration;
     SourceTable = "ADLSE Setup";
     InsertAllowed = false;
-    DeleteAllowed = false;
+    // DeleteAllowed = false;
     Caption = 'Export to Azure Data Lake Storage';
+    Permissions =
+        tabledata "ADLSE Current Session" = R,
+        tabledata "ADLSE Deleted Record" = R,
+        tabledata "ADLSE Run" = R,
+        tabledata "ADLSE Setup" = RM,
+        tabledata "ADLSE Table" = R,
+        tabledata "Job Queue Entry" = R,
+        tabledata Language = R;
     layout
     {
         area(Content)
@@ -58,7 +66,7 @@ page 82560 "ADLSE Setup"
                     field("Client ID"; ClientID)
                     {
                         Caption = 'Client ID';
-                        ExtendedDatatype = Masked;
+                        // ExtendedDatatype = Masked;
                         ToolTip = 'Specifies the application client ID for the Azure App Registration that accesses the storage account.';
 
                         trigger OnValidate()

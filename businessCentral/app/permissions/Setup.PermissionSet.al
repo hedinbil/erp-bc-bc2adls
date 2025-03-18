@@ -19,10 +19,13 @@ permissionset 82560 "ADLSE - Setup"
                   tabledata "ADLSE Enum Translation" = RIMD,
                   tabledata "ADLSE Enum Translation Lang" = RIMD,
                   tabledata "Deleted Tables Not to Sync" = RIMD,
+                  table "Deleted Tables Not to Sync" = X,
 #pragma warning disable AL0432
                   tabledata "ADLSE Export Category" = RIMD,
+                  table "ADLSE Export Category" = X,
 #pragma warning restore AL0432
                   tabledata "ADLSE Export Category Table" = RIMD,
+                  table "ADLSE Export Category Table" = X,
                   codeunit "ADLSE Clear Tracked Deletions" = X,
                   codeunit "ADLSE Credentials" = X,
                   codeunit "ADLSE Setup" = X,
